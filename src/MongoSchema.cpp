@@ -39,7 +39,7 @@ std::optional<bsoncxx::document::view> MongoSchema::create_created_at_index() co
     return builder.view();
 }
 
-mongocxx::collection MongoSchema::get_collection(const mongocxx::client& client, const std::string db_name) const
+mongocxx::collection MongoSchema::get_collection(const mongocxx::client& client, const std::string& db_name) const
 {
     std::string dbName = db_name;
     auto db = client[dbName];
@@ -51,7 +51,7 @@ bool MongoSchema::validation() const
     return true;
 }
 
-void MongoSchema::insert_one(const std::string& jsonDocument, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::insert_one(const std::string& jsonDocument, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -101,7 +101,7 @@ void MongoSchema::insert_one(const std::string& jsonDocument, const mongocxx::cl
     }
 }
 
-std::vector<bsoncxx::document::view> MongoSchema::insert_many(const std::vector<std::string>& jsonDocuments, const mongocxx::client& client, const std::string db_name)
+std::vector<bsoncxx::document::view> MongoSchema::insert_many(const std::vector<std::string>& jsonDocuments, const mongocxx::client& client, const std::string& db_name)
 {
     std::vector<bsoncxx::document::view> insertedDocs;
     try
@@ -148,7 +148,7 @@ std::vector<bsoncxx::document::view> MongoSchema::insert_many(const std::vector<
     }
 }
 
-void MongoSchema::find_by_id(const bsoncxx::oid& id, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::find_by_id(const bsoncxx::oid& id, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -170,7 +170,7 @@ void MongoSchema::find_by_id(const bsoncxx::oid& id, const mongocxx::client& cli
     }
 }
 
-void MongoSchema::find_one(const bsoncxx::v_noabi::document::view jsonFilter, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::find_one(const bsoncxx::v_noabi::document::view jsonFilter, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -190,7 +190,7 @@ void MongoSchema::find_one(const bsoncxx::v_noabi::document::view jsonFilter, co
     }
 }
 
-std::vector<bsoncxx::document::view> MongoSchema::find(const std::string& jsonFilter, const mongocxx::client& client, const std::string db_name)
+std::vector<bsoncxx::document::view> MongoSchema::find(const std::string& jsonFilter, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -210,7 +210,7 @@ std::vector<bsoncxx::document::view> MongoSchema::find(const std::string& jsonFi
     }
 }
 
-void MongoSchema::update_one(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::update_one(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -231,7 +231,7 @@ void MongoSchema::update_one(const std::string& jsonFilter, const std::string& j
     }
 }
 
-void MongoSchema::update_many(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::update_many(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -249,7 +249,7 @@ void MongoSchema::update_many(const std::string& jsonFilter, const std::string& 
     }
 }
 
-void MongoSchema::delete_one(const std::string& jsonFilter, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::delete_one(const std::string& jsonFilter, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {
@@ -267,7 +267,7 @@ void MongoSchema::delete_one(const std::string& jsonFilter, const mongocxx::clie
     }
 }
 
-void MongoSchema::delete_many(const std::string& jsonFilter, const mongocxx::client& client, const std::string db_name)
+void MongoSchema::delete_many(const std::string& jsonFilter, const mongocxx::client& client, const std::string& db_name)
 {
     try
     {

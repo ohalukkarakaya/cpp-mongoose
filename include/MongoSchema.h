@@ -6,9 +6,9 @@
 #include <bsoncxx/json.hpp>
 #include <utility>
 
-#include "../../exceptions/MongoSchemaException/MongoSchemaException.h"
-#include "../../exceptions/MongoValidationException/MongoValidationException.h"
-#include "../../exceptions/NotFoundException/NotFoundException.h"
+#include "exceptions/MongoSchemaException.h"
+#include "exceptions/MongoValidationException.h"
+#include "exceptions/NotFoundException.h"
 
 class MongoSchema {
 private:
@@ -30,7 +30,7 @@ protected:
     static bsoncxx::document::view create_filter(const std::string& jsonFilter) ;
 
     // Koleksiyon adı döndüren yardımcı metod
-    [[nodiscard]] mongocxx::collection get_collection(const mongocxx::client& client, const std::string db_name) const;
+    [[nodiscard]] mongocxx::collection get_collection(const mongocxx::client& client, const std::string& db_name) const;
 
     // Türemiş Classlar için muhakkak oluşturulmalı
     virtual void initializeSchema(bsoncxx::document::view document) = 0;
@@ -43,31 +43,31 @@ public:
     explicit MongoSchema(std::string collectionName, bsoncxx::oid id = bsoncxx::oid());
 
     // Tek bir belge ekleme
-    void insert_one(const std::string& jsonDocument, const mongocxx::client& client, const std::string db_name);
+    void insert_one(const std::string& jsonDocument, const mongocxx::client& client, const std::string& db_name);
 
     // Birden fazla belge ekleme
-    std::vector<bsoncxx::document::view> insert_many(const std::vector<std::string>& jsonDocuments, const mongocxx::client& client, const std::string db_name);
+    std::vector<bsoncxx::document::view> insert_many(const std::vector<std::string>& jsonDocuments, const mongocxx::client& client, const std::string& db_name);
 
     // ID'ye göre belge bulma
-    void find_by_id(const bsoncxx::oid& id, const mongocxx::client& client, const std::string db_name);
+    void find_by_id(const bsoncxx::oid& id, const mongocxx::client& client, const std::string& db_name);
 
     // Tek bir belge bulma
-    void find_one(const bsoncxx::v_noabi::document::view jsonFilter, const mongocxx::client& client, const std::string db_name);
+    void find_one(const bsoncxx::v_noabi::document::view jsonFilter, const mongocxx::client& client, const std::string& db_name);
 
     // Belge bulma (birden fazla sonuç)
-    std::vector<bsoncxx::document::view> find(const std::string& jsonFilter, const mongocxx::client& client, const std::string db_name);
+    std::vector<bsoncxx::document::view> find(const std::string& jsonFilter, const mongocxx::client& client, const std::string& db_name);
 
     // Tek bir belgeyi güncelleme
-    void update_one(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string db_name);
+    void update_one(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string& db_name);
 
     // Birden fazla belgeyi güncelleme
-    void update_many(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string db_name);
+    void update_many(const std::string& jsonFilter, const std::string& jsonUpdate, const mongocxx::client& client, const std::string& db_name);
 
     // Tek bir belgeyi silme
-    void delete_one(const std::string& jsonFilter, const mongocxx::client& client, const std::string db_name);
+    void delete_one(const std::string& jsonFilter, const mongocxx::client& client, const std::string& db_name);
 
     // Birden fazla belgeyi silme
-    void delete_many(const std::string& jsonFilter, const mongocxx::client& client, const std::string db_name);
+    void delete_many(const std::string& jsonFilter, const mongocxx::client& client, const std::string& db_name);
 };
 
 #endif //MONGODBSCHEMA_H

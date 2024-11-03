@@ -1,4 +1,4 @@
-#include "NotFoundException.h"
+#include "../../include/exceptions/NotFoundException.h"
 
 NotFoundException::NotFoundException(std::string collectionName, std::optional<std::string> objectId, std::optional<std::string> methodName)
         : collectionName(std::move(collectionName)), objectId(std::move(objectId))

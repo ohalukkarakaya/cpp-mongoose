@@ -1,4 +1,4 @@
-#include "MongoSchemaException.h"
+#include "../../include/exceptions/MongoSchemaException.h"
 
 MongoSchemaException::MongoSchemaException(std::string methodName, std::string collectionName, std::string object_id)
         : methodName(std::move(methodName)), collectionName(std::move(collectionName)), object_id(std::move(object_id))

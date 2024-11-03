@@ -1,4 +1,4 @@
-#include "MongoValidationException.h"
+#include "../../include/exceptions/MongoValidationException.h"
 
 MongoValidationException::MongoValidationException(std::string collectionName)
         : collectionName(std::move(collectionName))

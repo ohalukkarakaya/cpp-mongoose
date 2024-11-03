@@ -4,16 +4,10 @@ project(CppMongoose)
 set(CMAKE_CXX_STANDARD 17)
 
 # Include directories for your project
-include_directories(
-        ${CMAKE_SOURCE_DIR}/development/include
-        ${CMAKE_SOURCE_DIR}/models/include
-        ${CMAKE_SOURCE_DIR}/constants
-        ${CMAKE_SOURCE_DIR}/exceptions/MongoSchemaException
-        ${CMAKE_SOURCE_DIR}/exceptions/MongoValidationException
-        ${CMAKE_SOURCE_DIR}/exceptions/NotFoundException
-        /usr/local/include/mongocxx/v_noabi
-        /usr/local/include/bsoncxx/v_noabi
-)
+include_directories(${CMAKE_SOURCE_DIR}/include)
+include_directories(${CMAKE_SOURCE_DIR}/include/exceptions)
+include_directories(/usr/local/include/mongocxx/v_noabi)
+include_directories(/usr/local/include/bsoncxx/v_noabi)
 
 # Specify directories for libmongocxx and libbsoncxx
 set(CMAKE_PREFIX_PATH "/usr/local/Cellar/mongo-cxx-driver/3.10.2")
@@ -27,19 +21,14 @@ find_package(bsoncxx REQUIRED)
 include_directories(${Boost_INCLUDE_DIRS})
 
 # Source files
-file(
-        GLOB_RECURSE SRC_FILES
-        "${CMAKE_SOURCE_DIR}/development/src/*.cpp"
-        "${CMAKE_SOURCE_DIR}/models/src/*.cpp"
-        "${CMAKE_SOURCE_DIR}/exceptions/MongoSchemaException/*.cpp"
-        "${CMAKE_SOURCE_DIR}/exceptions/MongoValidationException/*.cpp"
-        "${CMAKE_SOURCE_DIR}/exceptions/NotFoundException/*.cpp"
+file(GLOB_RECURSE SRC_FILES
+        "${CMAKE_SOURCE_DIR}/src/*.cpp"
 )
 
-# Define the executable
-add_executable(CppMongoose main.cpp ${SRC_FILES})
+# Create a static or shared library
+add_library(CppMongoose STATIC ${SRC_FILES})
 
-# Link libraries to the executable
+# Link libraries to the library
 target_link_libraries(CppMongoose
         PRIVATE
         ${Boost_LIBRARIES}
