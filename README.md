@@ -1,48 +1,65 @@
 <div align="center">
     <img src="https://github.com/ohalukkarakaya/cpp-mongoose/blob/3758f7b57d4cb9f541f34f083e3b79e637ef23c5/assets/mongo_db.png" alt="thumbnail" style="width: 100%; height: auto;"></img>
 
-<h1>C++ Mongoose Like Library</h1>
-<p>Library for managing mongo db</p>
+<h1>C++ Mongoose-Like Library</h1>
+<p>A lightweight C++ library for managing MongoDB with an object-oriented approach.</p>
 </div>
 
-## 🗺️ <code>map</code> 
-- [<code>🌟 Features</code>](#-features)
-- [<code>📦 Installation</code>](#-installation)
-  - [<code>🔧 Prerequisites</code>](#-prerequisites)
-  - [<code>📥 Installing MongoDB C++ Driver</code>](#-installing-mongodb-c-driver)
-  - [<code>🗂️ Project Structure</code>](#-project-structure)
-- [<code>🚀 Usage</code>](#-usage)
-  - [<code>🏗️ Adding to Your Project Using CMake</code>](#️-adding-to-your-project-using-cmake)
-  - [<code>📝 Using the **MongoSchema** Class</code>](#-using-the-mongoschema-class)
-- [<code>💡 Example Usage</code>](#-example-usage)
-  - [<code>➕ Inserting a Single Document</code>](#-inserting-a-single-document)
-  - [<code>🔍 Finding a Document by ID</code>](#-finding-a-document-by-id)
-- [<code>⚠️ Error Handling</code>](#-error-handling)
-- [<code>📜 License</code>](#-license)
-- [<code>🤝 Contributions</code>](#-contributions)
-- [<code>🙏 Acknowledgements</code>](#-acknowledgements)
+---
 
-<hr style="border: 0.1px solid #ccc;" />
+## 📖 Overview
+
+This project is an experimental **MongoDB helper library in C++**, inspired by Mongoose in Node.js.  
+It simplifies CRUD operations, schema validation, and exception handling for C++ applications.
+
+---
+
+## 🗺️ Table of Contents
+- [🌟 Features](#-features)
+- [📦 Installation](#-installation)
+  - [🔧 Prerequisites](#-prerequisites)
+  - [📥 Installing MongoDB C++ Driver](#-installing-mongodb-c-driver)
+  - [🗂️ Project Structure](#-project-structure)
+- [🚀 Usage](#-usage)
+  - [🏗️ Adding to Your Project Using CMake](#️-adding-to-your-project-using-cmake)
+  - [📝 Using the MongoSchema Class](#-using-the-mongoschema-class)
+- [💡 Example Usage](#-example-usage)
+  - [➕ Inserting a Single Document](#-inserting-a-single-document)
+  - [🔍 Finding a Document by ID](#-finding-a-document-by-id)
+- [⚠️ Error Handling](#-error-handling)
+- [📊 Sample Output](#-sample-output)
+- [📜 License](#-license)
+- [🤝 Contributions](#-contributions)
+- [🙏 Acknowledgements](#-acknowledgements)
+
+---
 
 ## 🌟 Features
 
-- **CRUD Operations**: Basic database operations such as `insert_one`, `insert_many`, `find_by_id`, `find_one`, `find`, `update_one`, `update_many`, `delete_one`, and `delete_many`.
-- **Data Validation**: Built-in `isValid()` method for data validation.
-- **TTL and `createdAt` Indexing**: Automatic creation of TTL (Time-To-Live) and `createdAt` indices.
-- **Exception Handling**: Comprehensive error reporting through `MongoSchemaException`, `MongoValidationException`, and `NotFoundException` classes.
+- **CRUD Operations**: `insert_one`, `insert_many`, `find_by_id`, `find_one`, `find`, `update_one`, `update_many`, `delete_one`, and `delete_many`.
+- **Data Validation**: Built-in `validation()` method for custom rules.
+- **TTL & createdAt Indexing**: Auto-creation of TTL and timestamp indices.
+- **Custom Exceptions**: `MongoSchemaException`, `MongoValidationException`, and `NotFoundException`.
+
+---
 
 ## 📦 Installation
 
 ### 🔧 Prerequisites
-- **CMake** (version 3.10 or higher)
-- **MongoDB C++ Driver** (`mongocxx` and `bsoncxx`)
-- **Boost Library**
+- **C++17** or higher  
+- **CMake** (3.10+)  
+- **MongoDB C++ Driver** (`mongocxx` 3.10+ and `bsoncxx`)  
+- **Boost Library**  
 
 ### 📥 Installing MongoDB C++ Driver
-You can install the MongoDB C++ driver using `Homebrew`:
-
+On macOS with Homebrew:
 ```bash
 brew install mongo-cxx-driver
+```
+
+On Linux (Ubuntu/Debian):
+```bash
+sudo apt-get install libmongocxx-dev libbsoncxx-dev
 ```
 
 ### 🗂️ Project Structure
@@ -63,64 +80,96 @@ brew install mongo-cxx-driver
 └── README.md
 ```
 
+---
+
 ## 🚀 Usage
 
 ### 🏗️ Adding to Your Project Using CMake
-To build your project and include `CppMongoose as a library, add the following to your `CMakeLists.txt`:
-```
-add_subdirectory(path/to/CppMongoose)
-target_link_libraries(YourProjectName PRIVATE CppMongoose)
+```cmake
+add_subdirectory(path/to/cpp-mongoose)
+target_link_libraries(YourProject PRIVATE CppMongoose)
 ```
 
 ### 📝 Using the **MongoSchema** Class
-Extend the `MongoSchema class to create your own MongoDB models:
-
 ```cpp
 #include "MongoSchema.h"
 
-class YourModel : public MongoSchema {
+class UserModel : public MongoSchema {
 public:
-    YourModel() : MongoSchema("YourCollectionName") {}
+    UserModel() : MongoSchema("users") {}
 
     void initializeSchema(bsoncxx::document::view document) override {
-        // Map the document to your model
+        // Map BSON document to fields
     }
 
     bool validation() const override {
-        // Perform model validation
+        // Add validation logic
         return true;
     }
 };
 ```
+
+---
 
 ## 💡 Example Usage
 
 ### ➕ Inserting a Single Document
 ```cpp
 mongocxx::client client{mongocxx::uri{}};
-YourModel model;
-model.insert_one(R"({"name": "John Doe", "age": 30})", client, "YourDatabaseName");
+UserModel user;
+user.insert_one(R"({"name": "Alice", "age": 25})", client, "testdb");
 ```
 
 ### 🔍 Finding a Document by ID
 ```cpp
 bsoncxx::oid id("your_object_id_here");
-YourModel model;
-model.find_by_id(id, client, "YourDatabaseName");
+UserModel user;
+auto result = user.find_by_id(id, client, "testdb");
 ```
+
+---
 
 ## ⚠️ Error Handling
 
-This library uses custom exception classes (`MongoSchemaException`, `MongoValidationException`, and `NotFoundException`) to handle errors effectively, providing detailed information about what went wrong.
+The library uses custom exceptions (`MongoSchemaException`, `MongoValidationException`, `NotFoundException`) for clear error reporting.
+
+Example:
+```cpp
+try {
+    user.insert_one("{}", client, "testdb");
+} catch (const MongoValidationException& e) {
+    std::cerr << "Validation failed: " << e.what() << std::endl;
+}
+```
+
+---
+
+## 📊 Sample Output
+
+When inserting a valid document:
+```
+Inserted document into collection 'users' with _id: 60c72b2f9af1a4f5d4b7c9d1
+```
+
+When validation fails:
+```
+Validation failed: Missing required field 'name'
+```
+
+---
 
 ## 📜 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+---
+
 ## 🤝 Contributions
 
-Contributions are welcome! Feel free to open an issue or submit a pull request.
+Contributions are welcome! Open an issue or submit a PR.
+
+---
 
 ## 🙏 Acknowledgements
-- [MongoDB C++ Driver documentation](https://mongodb.github.io/mongo-cxx-driver/)
-- [Boost Library documentation](https://www.boost.org/doc/)
+- [MongoDB C++ Driver](https://mongodb.github.io/mongo-cxx-driver/)
+- [Boost Library](https://www.boost.org/doc/)
