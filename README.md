@@ -15,6 +15,7 @@ It simplifies CRUD operations, schema validation, and exception handling for C++
 ---
 
 ## 🗺️ Table of Contents
+- [👤 Intended Audience](#-intended-audience)
 - [🌟 Features](#-features)
 - [📦 Installation](#-installation)
   - [🔧 Prerequisites](#-prerequisites)
@@ -31,6 +32,13 @@ It simplifies CRUD operations, schema validation, and exception handling for C++
 - [📜 License](#-license)
 - [🤝 Contributions](#-contributions)
 - [🙏 Acknowledgements](#-acknowledgements)
+
+---
+
+## 👤 Intended Audience
+
+This library is designed for **C++ developers** who want to simplify MongoDB usage in their projects.  
+Expected audience: **intermediate to advanced C++ developers** who are already familiar with basic database concepts.
 
 ---
 
@@ -83,6 +91,9 @@ sudo apt-get install libmongocxx-dev libbsoncxx-dev
 ---
 
 ## 🚀 Usage
+
+> 📝 **Note**: This library assumes that you are comfortable with CMake and basic C++ class design.  
+It is intended for developers with at least intermediate C++ knowledge.
 
 ### 🏗️ Adding to Your Project Using CMake
 ```cmake
